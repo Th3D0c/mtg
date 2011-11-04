@@ -2,6 +2,7 @@
 
 class Decks extends CI_Controller {
 	protected $ViewLinker;
+	
 	/**
 	 * Index Page for this controller.
 	 *

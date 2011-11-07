@@ -21,7 +21,7 @@ class Cards extends CI_Controller {
 			$view_data['card_defense'] = $row->defense;
 			$view_data['card_text'] = trim($row->card_text);
 		}
-		http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=1215
+
 		// On get les infos de mana pour afficher les pictos
 		$this->db->select('*')->from('cards_mana_costs');
 		$this->db->join('mana_forms', 'mana_forms.mana_form_id = cards_mana_costs.mana_form_id', 'left');		

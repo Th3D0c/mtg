@@ -13,15 +13,15 @@ class Cards extends CI_Controller {
 		$this->db->select('*')->from('cards')->where('cards.card_id', $card_id);
 		$card_hdl = $this->db->get();
 		foreach ($card_hdl->result() as $row) {			
-			$wiew_data['card_name'] = $row->card_name;
-			$wiew_data['converted_mana_cost'] = $row->converted_mana_cost;
-			$wiew_data['card_type'] = $row->card_type;
-			$wiew_data['card_subtype'] = $row->card_subtype;
-			$wiew_data['card_power'] = $row->power;
-			$wiew_data['card_defense'] = $row->defense;
-			$wiew_data['card_text'] = trim($row->card_text);
+			$view_data['card_name'] = $row->card_name;
+			$view_data['converted_mana_cost'] = $row->converted_mana_cost;
+			$view_data['card_type'] = $row->card_type;
+			$view_data['card_subtype'] = $row->card_subtype;
+			$view_data['card_power'] = $row->power;
+			$view_data['card_defense'] = $row->defense;
+			$view_data['card_text'] = trim($row->card_text);
 		}
-		
+		http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=1215
 		// On get les infos de mana pour afficher les pictos
 		$this->db->select('*')->from('cards_mana_costs');
 		$this->db->join('mana_forms', 'mana_forms.mana_form_id = cards_mana_costs.mana_form_id', 'left');		
@@ -29,7 +29,7 @@ class Cards extends CI_Controller {
 		$card_infos_hdl = $this->db->get();
 		$card_infos = $card_infos_hdl->result();		
 		foreach ($card_infos_hdl->result() as $row) {
-			$wiew_data['mana_cost'][] = $row->mana_form_code;
+			$view_data['mana_cost'][] = $row->mana_form_code;
 		}
 		
 		// On load les editions pour l'affichage et pour trouver un scan de la carte
@@ -39,18 +39,18 @@ class Cards extends CI_Controller {
 		$this->db->where('cards_releases.card_id', $card_id)->order_by('editions.date', 'DESC'); 
 		$card_infos_hdl = $this->db->get();
 		$card_infos = $card_infos_hdl->result();
-		$wiew_data['display_edition_code'] = null;
+		$view_data['display_edition_code'] = null;
 		foreach ($card_infos_hdl->result() as $row) {			
-			$wiew_data['rarity_name'] = $row->rarity_name;
-			$wiew_data['display_editions_img'][] = array('edition_name' => $row->edition_name, 'edition_code' => $row->edition_code, 'rarity_code' => $row->rarity_code);
+			$view_data['rarity_name'] = $row->rarity_name;
+			$view_data['display_editions_img'][] = array('edition_name' => $row->edition_name, 'edition_code' => $row->edition_code, 'rarity_code' => $row->rarity_code);
 			
 			//On trouve une images qui correspond
-			if($wiew_data['display_edition_code'] == null && file_exists($_SERVER['DOCUMENT_ROOT']._IMAGES_DIR_.'scans/'.$row->edition_code.'/'.$wiew_data['card_name'].'.full.jpg') ) {
-				$wiew_data['display_edition_code'] = $row->edition_code;
+			if($view_data['display_edition_code'] == null && file_exists($_SERVER['DOCUMENT_ROOT']._IMAGES_DIR_.'scans/'.$row->edition_code.'/'.$view_data['card_name'].'.full.jpg') ) {
+				$view_data['display_edition_code'] = $row->edition_code;
 			}			
 		}
 		
-		$this->viewlinker->view('cards/cards_show', $wiew_data);
+		$this->viewlinker->view('cards/cards_show', $view_data);
 	}
 	
 	public function imgOnly($card_id) {

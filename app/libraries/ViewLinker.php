@@ -57,9 +57,7 @@ class ViewLinker {
 	}
 	
 	public function view($page_to_render, $page_data = null) {
-		if( !empty($page_to_render) ) { 
-			$this->base_view = $page_to_render;
-		}
+		$this->base_view = $page_to_render;
 		
 		$header_data['cssSheets'] = $this->getCssSheets();
 		$header_data['jsScripts'] = $this->getJsScripts();
